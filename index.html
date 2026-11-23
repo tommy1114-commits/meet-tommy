@@ -10,75 +10,79 @@
     <link rel="stylesheet" crossorigin href="./css/style.css">
   </head>
   <body>
-    <div id="app">
-      <div class="gba-console">
-        <!-- 頂部資訊與控制列 -->
-        <header class="console-header">
-          <div class="brand-tag">
-            <span class="led-indicator"></span>
-            <span>TOMMY BOY ADVANCE</span>
-          </div>
-          <div class="header-controls">
-            <button id="btn-sound" class="icon-btn" title="切換音效">🔊 音效</button>
-            <button id="btn-bgm" class="icon-btn" title="切換音樂">🎵 音樂</button>
-            <button id="btn-restart" class="icon-btn" title="回到標題">🏠 首頁</button>
-          </div>
-        </header>
+    <div class="app-shell">
+      <!-- 主 GBA 視窗舞台 (大畫面 3:2 掌機螢幕) -->
+      <main class="stage-wrap">
+        <div class="screen-bezel">
+          <div id="game-canvas-container"></div>
 
-        <!-- 3:2 掌機螢幕視窗 -->
-        <main class="screen-wrapper">
-          <div class="screen-inner-frame">
-            <div id="game-canvas-container"></div>
+          <!-- 頂部 Minimal In-Game Micro HUD -->
+          <div class="micro-hud" id="micro-hud" aria-label="遊戲狀態">
+            <div class="micro-left">
+              <span class="micro-pill chapter" id="micro-chapter">MEET TOMMY</span>
+              <span class="micro-pill" id="micro-zone">Tommy 的房間</span>
+            </div>
+            <div class="micro-right">
+              <button class="micro-btn" id="btn-sound-toggle" type="button" aria-label="切換音效">🔊 音效</button>
+              <button class="micro-btn" id="btn-bgm-toggle" type="button" aria-label="切換音樂">🎵 音樂</button>
+              <button class="micro-btn" id="btn-home-toggle" type="button" aria-label="返回首頁">🏠 首頁</button>
+            </div>
           </div>
-        </main>
 
-        <!-- 操作即時提示條 -->
-        <div id="hint-bar" class="hint-bar">
-          ↑↓ 移動游標 • 按 A / START / Enter 進入
+          <!-- 高清晰 HTML 浮動對話框 (字體完全清晰、選項獨立不重疊) -->
+          <section class="dialogue-box hidden" id="dialogue-box" role="dialog" aria-live="polite">
+            <div class="dialogue-portrait-wrap" id="dialogue-portrait-wrap">
+              <img id="dialogue-portrait" class="dialogue-portrait-img" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'/>" alt="Tommy" />
+            </div>
+            <div class="dialogue-main">
+              <div class="dialogue-speaker" id="dialogue-speaker">Tommy</div>
+              <div class="dialogue-text" id="dialogue-text"></div>
+              <div class="dialogue-choices hidden" id="dialogue-choices"></div>
+              <div class="dialogue-next-hint hidden" id="dialogue-next-hint">▼ 按 A / 空白鍵繼續</div>
+            </div>
+          </section>
         </div>
+      </main>
 
-        <!-- 掌機控制器按鍵面板 -->
-        <footer class="controller-panel">
-          <div class="controls-row">
-            <!-- 左側十字鍵 (D-Pad) -->
-            <div class="dpad" id="dpad-container">
-              <div class="dpad-center"></div>
-              <button class="dpad-btn dpad-up" data-dir="up">▲</button>
-              <button class="dpad-btn dpad-down" data-dir="down">▼</button>
-              <button class="dpad-btn dpad-left" data-dir="left">◀</button>
-              <button class="dpad-btn dpad-right" data-dir="right">▶</button>
+      <!-- 復古掌機控制器操作面板 (完美對標參考專案) -->
+      <footer class="controls-bar gba-deck" aria-label="GBA 控制器">
+        <div class="nearby-strip" id="nearby-hint">方向鍵移動 · 按 A 互動 · 按 B 返回</div>
+        <div class="gba-controls-row">
+          <!-- 左側十字方向鍵 (D-Pad 3x3 網格) -->
+          <div class="dpad" role="group" aria-label="方向鍵">
+            <button class="dpad-btn up" data-dir="up" type="button" aria-label="上">▲</button>
+            <button class="dpad-btn left" data-dir="left" type="button" aria-label="左">◀</button>
+            <div class="dpad-center"></div>
+            <button class="dpad-btn right" data-dir="right" type="button" aria-label="右">▶</button>
+            <button class="dpad-btn down" data-dir="down" type="button" aria-label="下">▼</button>
+          </div>
+
+          <!-- 中央 SELECT & START 膠囊鍵與按鍵說明 -->
+          <div class="gba-center-col">
+            <div class="gba-mid-btns">
+              <div class="gba-pill-wrap">
+                <button class="gba-pill-btn" id="btn-select-gba" type="button" aria-label="SELECT 說明"></button>
+                <span class="gba-pill-label">SELECT<small>說明</small></span>
+              </div>
+              <div class="gba-pill-wrap">
+                <button class="gba-pill-btn" id="btn-start-gba" type="button" aria-label="START 開始"></button>
+                <span class="gba-pill-label">START<small>開始</small></span>
+              </div>
             </div>
-
-            <!-- 右側 A / B 圓形按鈕 -->
-            <div class="action-buttons">
-              <div class="action-btn-group">
-                <button class="round-btn btn-b" id="btn-action-b" title="B: 返回">
-                  <span class="btn-letter">B</span>
-                  <span class="btn-sub">返回</span>
-                </button>
-              </div>
-              <div class="action-btn-group">
-                <button class="round-btn btn-a" id="btn-action-a" title="A: 互動 / 確認">
-                  <span class="btn-letter">A</span>
-                  <span class="btn-sub">互動</span>
-                </button>
-              </div>
+            <div class="desktop-key-hint">
+              <span><kbd>WASD</kbd>/<kbd>↑↓←→</kbd> 移動</span>
+              <span><kbd>Space</kbd>/<kbd>Enter</kbd>/<kbd>Z</kbd> A鍵</span>
+              <span><kbd>X</kbd>/<kbd>Esc</kbd> B鍵</span>
             </div>
           </div>
 
-          <!-- 中央 SELECT & START 按鈕 -->
-          <div class="center-buttons">
-            <div class="pill-group">
-              <button class="pill-btn" id="btn-select"></button>
-              <span class="pill-label">SELECT</span>
-            </div>
-            <div class="pill-group">
-              <button class="pill-btn" id="btn-start"></button>
-              <span class="pill-label">START</span>
-            </div>
+          <!-- 右側 B / A 圓形立體投影按鈕 -->
+          <div class="ab-buttons">
+            <button class="ab-btn btn-b" id="touch-b" type="button" aria-label="B 返回">B<span>返回</span></button>
+            <button class="ab-btn btn-a" id="touch-a" type="button" aria-label="A 互動">A<span>互動</span></button>
           </div>
-        </footer>
-      </div>
+        </div>
+      </footer>
     </div>
 
   </body>
