@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Meet Tommy — A Little World of Mine</title>
+    <meta name="description" content="受到 GBA 時代 2D RPG 啟發的個人互動交友冒險遊戲。走進 Tommy 的生活世界。" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
+    <script type="module" crossorigin src="./js/game.min.js"></script>
+    <link rel="stylesheet" crossorigin href="./css/style.css">
+  </head>
+  <body>
+    <div id="app">
+      <div class="gba-console">
+        <!-- 頂部資訊與控制列 -->
+        <header class="console-header">
+          <div class="brand-tag">
+            <span class="led-indicator"></span>
+            <span>TOMMY BOY ADVANCE</span>
+          </div>
+          <div class="header-controls">
+            <button id="btn-sound" class="icon-btn" title="切換音效">🔊 音效</button>
+            <button id="btn-bgm" class="icon-btn" title="切換音樂">🎵 音樂</button>
+            <button id="btn-restart" class="icon-btn" title="回到標題">🏠 首頁</button>
+          </div>
+        </header>
+
+        <!-- 3:2 掌機螢幕視窗 -->
+        <main class="screen-wrapper">
+          <div class="screen-inner-frame">
+            <div id="game-canvas-container"></div>
+          </div>
+        </main>
+
+        <!-- 操作即時提示條 -->
+        <div id="hint-bar" class="hint-bar">
+          ↑↓ 移動游標 • 按 A / START / Enter 進入
+        </div>
+
+        <!-- 掌機控制器按鍵面板 -->
+        <footer class="controller-panel">
+          <div class="controls-row">
+            <!-- 左側十字鍵 (D-Pad) -->
+            <div class="dpad" id="dpad-container">
+              <div class="dpad-center"></div>
+              <button class="dpad-btn dpad-up" data-dir="up">▲</button>
+              <button class="dpad-btn dpad-down" data-dir="down">▼</button>
+              <button class="dpad-btn dpad-left" data-dir="left">◀</button>
+              <button class="dpad-btn dpad-right" data-dir="right">▶</button>
+            </div>
+
+            <!-- 右側 A / B 圓形按鈕 -->
+            <div class="action-buttons">
+              <div class="action-btn-group">
+                <button class="round-btn btn-b" id="btn-action-b" title="B: 返回">
+                  <span class="btn-letter">B</span>
+                  <span class="btn-sub">返回</span>
+                </button>
+              </div>
+              <div class="action-btn-group">
+                <button class="round-btn btn-a" id="btn-action-a" title="A: 互動 / 確認">
+                  <span class="btn-letter">A</span>
+                  <span class="btn-sub">互動</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 中央 SELECT & START 按鈕 -->
+          <div class="center-buttons">
+            <div class="pill-group">
+              <button class="pill-btn" id="btn-select"></button>
+              <span class="pill-label">SELECT</span>
+            </div>
+            <div class="pill-group">
+              <button class="pill-btn" id="btn-start"></button>
+              <span class="pill-label">START</span>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+  </body>
+</html>
