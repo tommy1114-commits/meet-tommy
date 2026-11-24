@@ -6,8 +6,8 @@
     <title>Meet Tommy — A Little World of Mine</title>
     <meta name="description" content="受到 GBA 時代 2D RPG 啟發的個人互動交友冒險遊戲。走進 Tommy 的生活世界。" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
-    <script type="module" crossorigin src="./js/game.min.js?v=3.3"></script>
-    <link rel="stylesheet" crossorigin href="./css/style.css?v=3.3">
+    <script type="module" crossorigin src="./js/game.min.js?v=3.8"></script>
+    <link rel="stylesheet" crossorigin href="./css/style.css?v=3.8">
   </head>
   <body>
     <div class="app-shell">
@@ -33,6 +33,16 @@
           <!-- 遊戲浮動里程碑提示 (Toast) -->
           <div class="game-toast hidden" id="game-toast" role="status" aria-live="polite"></div>
 
+          <section class="weekday-recap hidden" id="weekday-recap" role="dialog" aria-labelledby="weekday-recap-title">
+            <h2 id="weekday-recap-title">今天就到這裡，晚安</h2>
+            <dl>
+              <dt>早上</dt><dd>喝杯咖啡，搭文湖線轉公車</dd>
+              <dt>下班後</dt><dd id="weekday-recap-run"></dd>
+              <dt>回家後</dt><dd id="weekday-recap-evening"></dd>
+            </dl>
+            <button type="button" id="weekday-recap-home">A · 回到首頁</button>
+          </section>
+
           <!-- 高清晰 HTML 浮動對話框 (字體完全清晰、選項獨立不重疊) -->
           <section class="dialogue-box hidden" id="dialogue-box" role="dialog" aria-live="polite">
             <div class="dialogue-portrait-wrap" id="dialogue-portrait-wrap">
@@ -50,7 +60,7 @@
           <section class="ending-card hidden" id="ending-card" role="dialog" aria-modal="true" aria-label="冒險尾聲">
             <div class="ending-card-inner">
               <div class="ending-header">
-                <img class="ending-avatar" src="./assets/characters/portrait_happy.png" alt="Tommy" />
+                <img class="ending-avatar" src="./assets/characters/tommy_story_portrait_happy.png?v=3.8" alt="Tommy" />
                 <div class="ending-title-group">
                   <div class="ending-title">Meet Tommy</div>
                   <div class="ending-subtitle">謝謝妳來我的小世界走走！</div>
@@ -238,7 +248,7 @@
           <p>「與其看完一份制式的自我介紹，不如花幾分鐘，走進我的生活。」</p>
           <p>這款小遊戲受到 GBA 時代 16-bit 經典 RPG 啟發，希望能讓有緣的妳，透過輕鬆、溫暖而自在的互動，認識一個真實、熱愛生活與閱讀的男生。</p>
           <p class="help-section-title">💡 探索提示</p>
-          <p>走近房間內的茶几、書架、工作筆電、日職球帽、微型投影機等物品，按下 A 鍵即可解鎖 Tommy 的生活故事；走到下方門口地毯更能一起出發去咖啡廳、河濱公園與書店喔！</p>
+          <p>走近房間內的茶几、書架、桌機、日職球帽、微型投影機等物品，按下 A 鍵即可解鎖 Tommy 的生活故事；走到下方門口地毯更能一起出發去咖啡廳、河濱公園與書店喔！</p>
           <div class="modal-footer-hint">[ 按 A / B / Space / Enter / 點擊關閉 ]</div>
         </div>
       </div>
