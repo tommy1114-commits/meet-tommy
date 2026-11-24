@@ -6,8 +6,8 @@
     <title>Meet Tommy — A Little World of Mine</title>
     <meta name="description" content="受到 GBA 時代 2D RPG 啟發的個人互動交友冒險遊戲。走進 Tommy 的生活世界。" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
-    <script type="module" crossorigin src="./js/game.min.js"></script>
-    <link rel="stylesheet" crossorigin href="./css/style.css">
+    <script type="module" crossorigin src="./js/game.min.js?v=2.2"></script>
+    <link rel="stylesheet" crossorigin href="./css/style.css?v=2.2">
   </head>
   <body>
     <div class="app-shell">
@@ -44,6 +44,65 @@
               <div class="dialogue-choices hidden" id="dialogue-choices"></div>
               <div class="dialogue-next-hint hidden" id="dialogue-next-hint">▼ 按 A / 空白鍵繼續</div>
             </div>
+          </section>
+
+          <!-- 高清晰 HTML 冒險尾聲結算卡片 (100% 向量高清晰，徹底解決 240x160 畫布模糊與文字覆蓋) -->
+          <section class="ending-card hidden" id="ending-card" role="dialog" aria-modal="true" aria-label="冒險尾聲">
+            <div class="ending-card-inner">
+              <div class="ending-header">
+                <img class="ending-avatar" src="./assets/characters/portrait_happy.png" alt="Tommy" />
+                <div class="ending-title-group">
+                  <div class="ending-title">Meet Tommy</div>
+                  <div class="ending-subtitle">謝謝妳來我的小世界走走！</div>
+                </div>
+              </div>
+
+              <div class="ending-body">
+                <p>希望這趟小冒險，讓妳稍微感受到了我真實的生活模樣。</p>
+                <p>如果妳也喜歡這樣真誠、溫暖而自在的步調，我很期待可以在現實世界裡，與妳繼續聊聊！</p>
+              </div>
+
+              <div class="ending-options" id="ending-options">
+                <button type="button" class="ending-opt-btn selected" data-idx="0">
+                  <span class="ending-opt-cursor">▶</span>
+                  <span class="ending-opt-text">💬 複製話題紙條，回軟體聊聊！</span>
+                </button>
+                <button type="button" class="ending-opt-btn" data-idx="1">
+                  <span class="ending-opt-cursor">  </span>
+                  <span class="ending-opt-text">🏡 再探索一下房間</span>
+                </button>
+                <button type="button" class="ending-opt-btn" data-idx="2">
+                  <span class="ending-opt-cursor">  </span>
+                  <span class="ending-opt-text">🔄 重新開始遊戲</span>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- 高清晰 HTML 首頁標題與選單 (100% 向量清晰度，徹底解決 240x160 畫布字體模糊) -->
+          <section class="title-overlay hidden" id="title-overlay" role="region" aria-label="遊戲首頁">
+            <div class="title-card">
+              <div class="title-main">MEET TOMMY</div>
+              <div class="title-sub">— A Little World of Mine —</div>
+              <div class="title-quote">「花幾分鐘，走進我的生活。」</div>
+            </div>
+
+            <div class="title-menu" id="title-menu">
+              <button type="button" class="title-menu-btn selected" data-idx="0">
+                <span class="title-cursor">▶</span>
+                <span class="title-btn-text">開始探索 (START)</span>
+              </button>
+              <button type="button" class="title-menu-btn" data-idx="1">
+                <span class="title-cursor">  </span>
+                <span class="title-btn-text">操作說明 (HOW TO PLAY)</span>
+              </button>
+              <button type="button" class="title-menu-btn" data-idx="2">
+                <span class="title-cursor">  </span>
+                <span class="title-btn-text">關於 Tommy (ABOUT)</span>
+              </button>
+            </div>
+
+            <div class="title-footer-hint">↑↓ 方向鍵選擇 • Enter / Space / A 進入</div>
           </section>
         </div>
       </main>
@@ -158,6 +217,25 @@
             <li><strong>確認 / 互動 (A鍵)</strong>：<kbd>Space</kbd> / <kbd>Enter</kbd> / <kbd>Z</kbd></li>
             <li><strong>返回 / 取消 (B鍵)</strong>：<kbd>Esc</kbd> / <kbd>X</kbd></li>
           </ul>
+          <div class="modal-footer-hint">[ 按 A / B / Space / Enter / 點擊關閉 ]</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 關於 Tommy Modal (高清晰向量彈窗) -->
+    <div id="about-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="about-title">
+      <div class="settings-dialog">
+        <div class="settings-header">
+          <span class="settings-title" id="about-title">✨ 關於 Tommy (ABOUT)</span>
+          <button id="btn-close-about" class="settings-close-btn" type="button" aria-label="關閉說明">✕</button>
+        </div>
+        <div class="settings-body help-content">
+          <p class="help-section-title">🎮 設計初衷</p>
+          <p>「與其看完一份制式的自我介紹，不如花幾分鐘，走進我的生活。」</p>
+          <p>這款小遊戲受到 GBA 時代 16-bit 經典 RPG 啟發，希望能讓有緣的妳，透過輕鬆、溫暖而自在的互動，認識一個真實、熱愛生活與閱讀的男生。</p>
+          <p class="help-section-title">💡 探索提示</p>
+          <p>走近房間內的茶几、書架、工作筆電、日職球帽等物品，按下 A 鍵即可解鎖 Tommy 的生活故事；走到下方門口地毯更能一起出發去咖啡廳、河濱公園約會喔！</p>
+          <div class="modal-footer-hint">[ 按 A / B / Space / Enter / 點擊關閉 ]</div>
         </div>
       </div>
     </div>
