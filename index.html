@@ -11,23 +11,27 @@
   </head>
   <body>
     <div class="app-shell">
-      <!-- 主 GBA 視窗舞台 (大畫面 3:2 掌機螢幕) -->
+      <!-- 頂部精簡品牌與系統選單列 (解決手機標題過擠換行問題) -->
+      <header class="app-header">
+        <div class="brand-title">MEET TOMMY <span class="heart-icon">♡</span></div>
+        <button id="btn-settings" class="settings-icon-btn" type="button" aria-label="設定選單" title="設定">
+          <span class="icon-gear">⚙️</span>
+        </button>
+      </header>
+
+      <!-- 主 GBA 視窗舞台 (全螢幕自適應 3:2 掌機螢幕，消除上下黑色虛空) -->
       <main class="stage-wrap">
         <div class="screen-bezel">
           <div id="game-canvas-container"></div>
 
-          <!-- 頂部 Minimal In-Game Micro HUD -->
-          <div class="micro-hud" id="micro-hud" aria-label="遊戲狀態">
-            <div class="micro-left">
-              <span class="micro-pill chapter" id="micro-chapter">MEET TOMMY</span>
-              <span class="micro-pill" id="micro-zone">Tommy 的房間</span>
-            </div>
-            <div class="micro-right">
-              <button class="micro-btn" id="btn-sound-toggle" type="button" aria-label="切換音效">🔊 音效</button>
-              <button class="micro-btn" id="btn-bgm-toggle" type="button" aria-label="切換音樂">🎵 音樂</button>
-              <button class="micro-btn" id="btn-home-toggle" type="button" aria-label="返回首頁">🏠 首頁</button>
-            </div>
+          <!-- 小型場景標籤 (不擋視線、不與按鈕擁擠) -->
+          <div class="scene-badge" id="scene-badge" aria-label="目前場景">
+            <span class="badge-icon">📍</span>
+            <span id="scene-name">Tommy 的房間</span>
           </div>
+
+          <!-- 遊戲浮動里程碑提示 (Toast) -->
+          <div class="game-toast hidden" id="game-toast" role="status" aria-live="polite"></div>
 
           <!-- 高清晰 HTML 浮動對話框 (字體完全清晰、選項獨立不重疊) -->
           <section class="dialogue-box hidden" id="dialogue-box" role="dialog" aria-live="polite">
@@ -44,30 +48,41 @@
         </div>
       </main>
 
-      <!-- 復古掌機控制器操作面板 (完美對標參考專案) -->
-      <footer class="controls-bar gba-deck" aria-label="GBA 控制器">
+      <!-- 中段掌機飾板與操作提示條 (緊湊過渡，消除上下大片留白) -->
+      <div class="console-mid-bar">
         <div class="nearby-strip" id="nearby-hint">方向鍵移動 · 按 A 互動 · 按 B 返回</div>
+      </div>
+
+      <!-- 復古掌機控制器操作面板 (左下十字鍵、右下 A/B 鍵，符合拇指人體工學) -->
+      <footer class="controls-bar gba-deck" aria-label="GBA 控制器">
+        <!-- 掌機飾板：凹槽裝飾、經典立體 Logo 與生活記憶收集進度 -->
+        <div class="console-chassis-mid">
+          <div class="chassis-grooves" aria-hidden="true"></div>
+          <div class="chassis-brand-logo">TOMMY BOY ADVANCE</div>
+          <div class="discovery-tracker-pill" id="discovery-pill" title="探索房間裡的物品解鎖生活記憶">
+            <span class="star-icon">🌟</span>
+            <span id="discovery-text">Tommy 的生活記憶：已發現 0 / 10</span>
+          </div>
+          <div class="chassis-grooves" aria-hidden="true"></div>
+        </div>
+
         <div class="gba-controls-row">
-          <!-- 左側十字方向鍵 (D-Pad 3x3 網格) -->
-          <div class="dpad" role="group" aria-label="方向鍵">
-            <button class="dpad-btn up" data-dir="up" type="button" aria-label="上">▲</button>
-            <button class="dpad-btn left" data-dir="left" type="button" aria-label="左">◀</button>
-            <div class="dpad-center"></div>
-            <button class="dpad-btn right" data-dir="right" type="button" aria-label="右">▶</button>
-            <button class="dpad-btn down" data-dir="down" type="button" aria-label="下">▼</button>
+          <!-- 左側十字方向鍵 (支援滑動轉向與長按連續移動) -->
+          <div class="dpad-touch-zone" id="dpad-zone">
+            <div class="dpad" id="dpad-container" role="group" aria-label="方向鍵">
+              <button class="dpad-btn up" data-dir="up" type="button" aria-label="上">▲</button>
+              <button class="dpad-btn left" data-dir="left" type="button" aria-label="左">◀</button>
+              <div class="dpad-center"></div>
+              <button class="dpad-btn right" data-dir="right" type="button" aria-label="右">▶</button>
+              <button class="dpad-btn down" data-dir="down" type="button" aria-label="下">▼</button>
+            </div>
           </div>
 
-          <!-- 中央 SELECT & START 膠囊鍵與按鍵說明 -->
+          <!-- 中央質感揚聲孔與桌面鍵盤按鍵提示 -->
           <div class="gba-center-col">
-            <div class="gba-mid-btns">
-              <div class="gba-pill-wrap">
-                <button class="gba-pill-btn" id="btn-select-gba" type="button" aria-label="SELECT 說明"></button>
-                <span class="gba-pill-label">SELECT<small>說明</small></span>
-              </div>
-              <div class="gba-pill-wrap">
-                <button class="gba-pill-btn" id="btn-start-gba" type="button" aria-label="START 開始"></button>
-                <span class="gba-pill-label">START<small>開始</small></span>
-              </div>
+            <div class="speaker-grille" aria-hidden="true">
+              <span></span><span></span><span></span>
+              <span></span><span></span><span></span>
             </div>
             <div class="desktop-key-hint">
               <span><kbd>WASD</kbd>/<kbd>↑↓←→</kbd> 移動</span>
@@ -76,13 +91,75 @@
             </div>
           </div>
 
-          <!-- 右側 B / A 圓形立體投影按鈕 -->
+          <!-- 右側 B / A 圓形立體投影按鈕 (安全邊距，不擋手勢) -->
           <div class="ab-buttons">
             <button class="ab-btn btn-b" id="touch-b" type="button" aria-label="B 返回">B<span>返回</span></button>
             <button class="ab-btn btn-a" id="touch-a" type="button" aria-label="A 互動">A<span>互動</span></button>
           </div>
         </div>
       </footer>
+    </div>
+
+    <!-- 系統設定選單 Modal -->
+    <div id="settings-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+      <div class="settings-dialog">
+        <div class="settings-header">
+          <span class="settings-title" id="settings-title">⚙️ 系統選單</span>
+          <button id="btn-close-settings" class="settings-close-btn" type="button" aria-label="關閉選單">✕</button>
+        </div>
+        <div class="settings-body">
+          <button id="setting-toggle-sound" class="settings-menu-item" type="button">
+            <span class="setting-item-icon" id="sound-icon">🔊</span>
+            <span class="setting-item-label">遊戲音效</span>
+            <span class="setting-item-status" id="sound-status">開啟</span>
+          </button>
+          <button id="setting-toggle-bgm" class="settings-menu-item" type="button">
+            <span class="setting-item-icon" id="bgm-icon">🎵</span>
+            <span class="setting-item-label">背景音樂</span>
+            <span class="setting-item-status" id="bgm-status">開啟</span>
+          </button>
+          <button id="setting-how-to-play" class="settings-menu-item" type="button">
+            <span class="setting-item-icon">📖</span>
+            <span class="setting-item-label">操作說明</span>
+            <span class="setting-item-arrow">▶</span>
+          </button>
+          <button id="setting-go-home" class="settings-menu-item" type="button">
+            <span class="setting-item-icon">🏠</span>
+            <span class="setting-item-label">返回首頁</span>
+            <span class="setting-item-arrow">▶</span>
+          </button>
+          <button id="setting-restart" class="settings-menu-item" type="button">
+            <span class="setting-item-icon">🔄</span>
+            <span class="setting-item-label">重新開始本場景</span>
+            <span class="setting-item-arrow">▶</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 操作說明 Modal -->
+    <div id="help-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="help-title">
+      <div class="settings-dialog">
+        <div class="settings-header">
+          <span class="settings-title" id="help-title">📖 操作說明</span>
+          <button id="btn-close-help" class="settings-close-btn" type="button" aria-label="關閉說明">✕</button>
+        </div>
+        <div class="settings-body help-content">
+          <p class="help-section-title">📱 手機觸控操作</p>
+          <ul class="help-list">
+            <li><strong>左下十字鍵</strong>：長按持續控制 Tommy 四方向移動，放開即停。</li>
+            <li><strong>右下 A 鍵</strong>：靠近家具或人物進行互動、確認或推進對話。</li>
+            <li><strong>右下 B 鍵</strong>：關閉當前對話或返回。</li>
+            <li><strong>右上 ⚙️ 圖示</strong>：隨時開啟音效、音樂與功能選單。</li>
+          </ul>
+          <p class="help-section-title">💻 電腦鍵盤操作</p>
+          <ul class="help-list">
+            <li><strong>移動</strong>：<kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> 或方向鍵 <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd></li>
+            <li><strong>確認 / 互動 (A鍵)</strong>：<kbd>Space</kbd> / <kbd>Enter</kbd> / <kbd>Z</kbd></li>
+            <li><strong>返回 / 取消 (B鍵)</strong>：<kbd>Esc</kbd> / <kbd>X</kbd></li>
+          </ul>
+        </div>
+      </div>
     </div>
 
   </body>
